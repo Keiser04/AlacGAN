@@ -24,7 +24,7 @@ def save_checkpoint(state, is_best, filename):
         shutil.copyfile(filename + '.pth.tar', filename + '_best.pth.tar')
 
 
-def load_state(path, netG, netD, optimizerG, optimizerD):
+def load_state(path, netG, netD, optimizerG, optimizerD,load_fid = False):
     def map_func(storage, location):
         return storage.cuda()
 
@@ -52,13 +52,13 @@ def load_state(path, netG, netD, optimizerG, optimizerD):
         for k in missing_keys:
             print(f'caution: missing netD keys from checkpoint {path}: {k}')
         
-        if checkpoint['iter_record'] !=None:
+        if load_fid == True and checkpoint['iter_record'] !=None:
             iter_record = checkpoint['iter_record']
             fid_record  = checkpoint['fid_record']
             print("load fid_record successfully")
-            print(iter_record)
+            return best_fid, last_iter,iter_record,fid_record
         else:
-            print("load fid_record failed")
+            print("not load fid_record")
 
         return best_fid, last_iter
     else:
