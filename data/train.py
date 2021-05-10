@@ -231,11 +231,12 @@ class ImageFolder(data.Dataset):
     def __getitem__(self, index):
         fname = self.imgs[index]
         Cimg = color_loader(os.path.join(self.root, 'illustrations_remake', fname))
-        kind = random.randint(1,4)
-        if kind in [1,2,3]:
+        kind = random.randint(1,3)
+        if kind in [1,2]:
             thick = str(random.randint(3,5))
-            Simg = sketch_loader(os.path.join(self.root, '0.'+thick+'XDoG', fname))
-        elif kind == 4:
+            #Simg = sketch_loader(os.path.join(self.root, '0.'+thick+'XDoG', fname))
+            Simg = sketch_loader(os.path.join(self.root, "XDoG/0."+thick, fname))
+        elif kind == 3:
             #Simg = sketch_loader(os.path.join(self.root, 'sketch_kersa_torch', fname))
             Simg = sketch_loader(os.path.join(self.root, 'illustrations_resized_final/illustrations_resized_final', fname))
             #Simg = sketch_loader(os.path.join(self.root, 'pssketch', fname))
