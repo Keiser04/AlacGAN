@@ -237,8 +237,8 @@ class ImageFolder(data.Dataset):
             #Simg = sketch_loader(os.path.join(self.root, '0.'+thick+'XDoG', fname))
             Simg = sketch_loader(os.path.join(self.root, "XDoG/0."+thick, fname))
         elif kind == 3:
-            #Simg = sketch_loader(os.path.join(self.root, 'sketch_kersa_torch', fname))
-            Simg = sketch_loader(os.path.join(self.root, 'illustrations_resized_final/illustrations_resized_final', fname))
+            Simg = sketch_loader(os.path.join(self.root, 'sketch_kersa_torch', fname))
+            #Simg = sketch_loader(os.path.join(self.root, 'illustrations_resized_final/illustrations_resized_final', fname))
             #Simg = sketch_loader(os.path.join(self.root, 'pssketch', fname))
         
         #Simg = sketch_loader(os.path.join(self.root, '0.'+str(kind)+'XDoG', fname))
