@@ -125,7 +125,7 @@ def sketch_loader(path1,path2):
     img = None
     assert img1.size == img2.size
     width , height = img1.size
-    if random.random>0.5:
+    if random.random()>0.5:
         # horizontal merge
         crop_width = int(width*rate)
         img2.paste(img1.crop(0,0,crop_width,height))
