@@ -128,12 +128,12 @@ def sketch_loader(path1,path2):
     if random.random()>0.5:
         # horizontal merge
         crop_width = int(width*rate)
-        img2.paste(img1.crop(0,0,crop_width,height))
+        img2.paste(img1.crop((0,0,crop_width,height)))
         img = img2
     else:
         #vertical merge
         crop_height = int(height*rate)
-        img2.paste(img1.crop(0,0,width,crop_height))
+        img2.paste(img1.crop((0,0,width,crop_height)))
         img = img2
     
     return img.convert('L')
