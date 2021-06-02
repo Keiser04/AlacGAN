@@ -5,6 +5,8 @@ import numbers
 import os
 import os.path
 import random
+from numpy.core.fromnumeric import size
+from numpy.lib.financial import rate
 import torch
 import numpy as np
 import torch.utils.data as data
@@ -116,8 +118,25 @@ def color_loader(path):
     return Image.open(path).convert('RGB')
 
 
-def sketch_loader(path):
-    return Image.open(path).convert('L')
+def sketch_loader(path1,path2):
+    rate= random.random()
+    img1 = Image.open(path1)
+    img2 = Image.open(path2)
+    img = None
+    assert img1.size == img2.size
+    width , height = img1.size
+    if random.random>0.5:
+        # horizontal merge
+        crop_width = int(width*rate)
+        img2.paste(img1.crop(0,0,crop_width,height))
+        img = img2
+    else:
+        #vertical merge
+        crop_height = int(height*rate)
+        img2.paste(img1.crop(0,0,width,crop_height))
+        img = img2
+    
+    return img.convert('L')
 
 
 # class DistributedSampler(Sampler):
@@ -232,17 +251,19 @@ class ImageFolder(data.Dataset):
         fname = self.imgs[index]
         Cimg = color_loader(os.path.join(self.root, 'illustrations_remake', fname))
         kind = random.randint(1,2)
-        if kind in [1]:
-            #Simg = sketch_loader(os.path.join(self.root, 'sketch_kersa_torch', fname))
-            Simg = sketch_loader(os.path.join(self.root, 'illustrations_resized_final/illustrations_resized_final', fname))
-            #thick = str(random.randint(3,5))
-            #Simg = sketch_loader(os.path.join(self.root, '0.'+thick+'XDoG', fname))
-            #Simg = sketch_loader(os.path.join(self.root, "XDoG/0."+thick, fname))
-        elif kind == 2:
-            Simg = sketch_loader(os.path.join(self.root, 'sketch_kersa_torch', fname))
+        # if kind in [1]:
+        #     #Simg = sketch_loader(os.path.join(self.root, 'sketch_kersa_torch', fname))
+        #     Simg = sketch_loader(os.path.join(self.root, 'illustrations_resized_final/illustrations_resized_final', fname))
+        #     #thick = str(random.randint(3,5))
+        #     #Simg = sketch_loader(os.path.join(self.root, '0.'+thick+'XDoG', fname))
+        #     #Simg = sketch_loader(os.path.join(self.root, "XDoG/0."+thick, fname))
+        # elif kind == 2:
+        #     Simg = sketch_loader(os.path.join(self.root, 'sketch_kersa_torch', fname))
             
-            #Simg = sketch_loader(os.path.join(self.root, 'pssketch', fname))
-        
+        #     #Simg = sketch_loader(os.path.join(self.root, 'pssketch', fname))
+        thick = str(random.randint(3,5))
+        Simg = sketch_loader(os.path.join(self.root, '0.'+thick+'XDoG', fname),os.path.join(self.root, 'sketch_kersa_torch', fname))
+
         #Simg =sketch_loader(os.path.join(self.root, "XDoG/0."+str(kind), fname))
         Cimg, Simg = RandomCrop(512)(Cimg, Simg)
         if random.random() < 0.5:
