@@ -5,8 +5,8 @@ workers: 2
 batch_size: 16
 image_size: 256
 
-val_freq: 1000
-print_freq: 100
+val_freq: 2000
+print_freq: 200
 print_img_freq: 100
 
 
